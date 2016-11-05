@@ -17,19 +17,19 @@ namespace Reflection
 
 			const string solutionPath = @"D:\Programming\VisualStudio\Projects\STUDYING_Csharp\Reflection\";
 
-			var dllFilesPaths = Directory.GetFiles(solutionPath, "*.dll", SearchOption.AllDirectories);
+			var dllFilesPaths = Directory.GetFiles(solutionPath, "Plugin*.dll", SearchOption.AllDirectories);
 
-			foreach (IPlugin pluginInstance in (
-				from pluginTypes in dllFilesPaths
-									.Select(Assembly.LoadFrom)
-									.Select(assembly => assembly.GetTypes())
-				from type in pluginTypes
-				select Activator.CreateInstance(type) as IPlugin
-				).Where(plugin => plugin != null))
+			foreach (var pluginInstance in dllFilesPaths
+				.Select(Assembly.LoadFrom)
+				.SelectMany(assembly => assembly.GetTypes())
+				.Where(type => type.GetInterface("IPlugin") != null)
+				.Where(type => type.GetConstructor(Type.EmptyTypes) != null)
+				.Select(type => Activator.CreateInstance(type) as IPlugin)
+				)
 			{
 				Console.WriteLine(pluginInstance.Name);
 			}
-			
+
 			Console.ReadKey();
 		}
 	}
