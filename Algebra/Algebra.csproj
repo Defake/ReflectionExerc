@@ -44,9 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlgebraStuff.cs" />
-    <Compile Include="ExpressionConverter.cs" />
-    <Compile Include="ExpressionConverterDifferential.cs" />
-    <Compile Include="ExpressionConverterParameter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
